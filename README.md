@@ -1,4 +1,4 @@
-# Flavio Mericio
+# Flavio 
 
 I work on enterprise AI adoption and governance: moving AI from pilots to governed, measurable
 services in large organisations. These repositories show how I approach it in practice: small

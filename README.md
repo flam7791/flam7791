@@ -35,6 +35,13 @@ that gives AI assistants cited access to official statistics (SDMX) and policy d
 (hybrid RAG: keywords plus embeddings), with a sensitivity ceiling. Read-only by design,
 rate-limited, with a retrieval evaluation as a CI gate.
 
+**[copilot-team-knowledge](https://github.com/flam7791/copilot-team-knowledge)**: a curated
+knowledge layer that Microsoft 365 Copilot answers from. A team keeps verified knowledge cards
+in SharePoint; a validator and a publisher release only active cards at or below a classification
+ceiling to the folder Copilot reads, so drafts, replaced decisions and restricted content never
+reach it. Runs as a declarative agent or, where agents are not available, as saved Copilot Chat
+prompts, and is evaluated on the failures that matter, including prompt injection.
+
 ## How I build
 
 - Deterministic where possible, models where they add value, people where it matters
@@ -44,6 +51,6 @@ rate-limited, with a retrieval evaluation as a CI gate.
 Built with AI-assisted development. The design decisions behind each project are documented in
 its `docs/` folder.
 
-`Python` · `FastAPI` · `MCP` · `RAG` · `AI agents` · `Claude API` · `Azure OpenAI` · `Ollama` · `Docker Compose` · `Prometheus` · `GitHub Actions`
+`Python` · `FastAPI` · `MCP` · `RAG` · `AI agents` · `Claude API` · `Azure OpenAI` · `Microsoft 365 Copilot` · `SharePoint` · `Ollama` · `Docker Compose` · `Prometheus` · `GitHub Actions`
 
 Paris · English, Italian, Spanish, French (working knowledge)

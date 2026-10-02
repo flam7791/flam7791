@@ -42,6 +42,13 @@ ceiling to the folder Copilot reads, so drafts, replaced decisions and restricte
 reach it. Runs as a declarative agent or, where agents are not available, as saved Copilot Chat
 prompts, and is evaluated on the failures that matter, including prompt injection.
 
+**[oecd-data-pipeline](https://github.com/flam7791/oecd-data-pipeline)**: turns OECD Data
+Explorer indicators into checked, plain-English country notes. Python fetches the data with its
+provenance, cleans it by rules and computes every figure; Microsoft 365 Copilot only writes the
+wording, from a saved prompt on small batches. A validator then rejects any note that skips a
+row, contradicts the figures or mentions a number not in the data, and sends it to a person for
+review. No API costs; tested offline in CI.
+
 ## How I build
 
 - Deterministic where possible, models where they add value, people where it matters
@@ -51,6 +58,6 @@ prompts, and is evaluated on the failures that matter, including prompt injectio
 Built with AI-assisted development. The design decisions behind each project are documented in
 its `docs/` folder.
 
-`Python` · `FastAPI` · `MCP` · `RAG` · `AI agents` · `Claude API` · `Azure OpenAI` · `Microsoft 365 Copilot` · `SharePoint` · `Ollama` · `Docker Compose` · `Prometheus` · `GitHub Actions`
+`Python` · `pandas` · `SDMX` · `FastAPI` · `MCP` · `RAG` · `AI agents` · `Claude API` · `Azure OpenAI` · `Microsoft 365 Copilot` · `SharePoint` · `Ollama` · `Docker Compose` · `Prometheus` · `GitHub Actions`
 
 Paris · English, Italian, Spanish, French (working knowledge)

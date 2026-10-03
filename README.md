@@ -1,63 +1,53 @@
-# Flavio 
+# Flavio
 
 I work on enterprise AI adoption and governance: moving AI from pilots to governed, measurable
-services in large organisations. These repositories show how I approach it in practice: small
-systems, tested, auditable, and explicit about what they measure and what they cost.
+services in large organisations. These repositories show how I approach it in practice: a
+framework that makes AI services consistent, and the working systems it is built from. Small,
+tested, auditable, explicit about what they measure and what they cost, and able to run
+entirely on open-weight models on an organisation's own infrastructure.
 
-## Projects
+## The framework
 
-**[governed-ai-platform](https://github.com/flam7791/governed-ai-platform)**: the reference
-deployment that brings the three components below together as one operable service: hardened
-containers, secrets, Prometheus monitoring with alert rules, pinned component versions, a runbook,
-and an end-to-end test on every change that starts the whole stack and walks an agent run
-through a human approval.
+**[ai-engineering-framework](https://github.com/flam7791/ai-engineering-framework)**: how an
+organisation identifies, builds, industrialises and operates AI solutions the same way every
+time. A reference architecture with on-premises, hybrid and cloud topologies; six solution
+patterns, each with a working reference implementation below; engineering standards that run as
+checks in CI (`aief check`); a use-case intake that scores proposals on feasibility, information
+sensitivity, security, cost, scalability, interoperability and sustainability and recommends a
+pattern and topology (`aief intake`); lifecycle gates and a handover pack; and a service
+template that starts every new project local-first, evaluated and production-ready.
 
-**[governed-agents](https://github.com/flam7791/governed-agents)**: a reference architecture
-for governed multi-agent systems. Specialist agents use real tools (Python and MCP), and a
-policy engine decides every tool call: least privilege, autonomy levels, allowed recipients.
-External actions wait for a named person's approval (four eyes, from a web page or the command
-line), every step lands in an audit trail, and agents are evaluated on what they did, including
-a planted prompt-injection test.
+## Reference implementations, by stage
 
-**[governed-llm-gateway](https://github.com/flam7791/governed-llm-gateway)**: an internal LLM
-gateway that routes each request to the cheapest adequate model (Claude, Azure OpenAI with
-Entra ID, or a local open-weight model), masks personal data before it leaves, enforces team
-budgets and produces chargeback reports without storing content. OpenAI-compatible (chat and
-embeddings), with Prometheus metrics, evaluated for quality and cost.
+| Stage | Repository | What it shows |
+|---|---|---|
+| **Identify** | [governed-agents](https://github.com/flam7791/governed-agents) (use-case triage desk) | Agents that register a proposed AI use case, assess risk and cost, choose a pattern and submit a decision record for sign-off |
+| **Build** | [policy-evidence-mcp](https://github.com/flam7791/policy-evidence-mcp) | An MCP server giving assistants cited access to official statistics (SDMX) and policy documents: hybrid RAG with a sensitivity ceiling, read-only by design, retrieval evaluation as a CI gate |
+| | [reference-resolver-agent](https://github.com/flam7791/reference-resolver-agent) | Deterministic scoring first; the model chooses only among records actually retrieved; a bounded search agent; uncertain cases to a human review queue; measured on a gold set |
+| | [oecd-data-pipeline](https://github.com/flam7791/oecd-data-pipeline) | Python computes every figure, a model (Microsoft 365 Copilot or a local open-weight model) writes only the wording, and a validator rejects any note with a number not in the data |
+| | [copilot-team-knowledge](https://github.com/flam7791/copilot-team-knowledge) | A verified knowledge layer that Microsoft 365 Copilot answers from: only active cards at or below a classification ceiling are published; also answerable by a local model |
+| **Industrialise** | [governed-llm-gateway](https://github.com/flam7791/governed-llm-gateway) | One door to every model: routes each request to the cheapest adequate model (Claude, Azure OpenAI with Entra ID, or local), masks personal data, enforces budgets, chargeback without storing content |
+| | [governed-agents](https://github.com/flam7791/governed-agents) | Multi-agent runtime where a policy engine decides every tool call: least privilege, autonomy levels, four-eyes approval for external actions, audit trail, kill switch, trajectory evaluation with a planted prompt injection |
+| **Operate** | [governed-ai-platform](https://github.com/flam7791/governed-ai-platform) | The components as one operable service: hardened containers, Prometheus alerts, pinned versions, runbook, an end-to-end test in CI, and a sovereign mode in which no external model exists |
 
-**[reference-resolver-agent](https://github.com/flam7791/reference-resolver-agent)**: an
-agentic workflow using Claude to resolve messy bibliographic references to DOIs. Deterministic
-scoring comes first; the model only chooses among records actually retrieved, a bounded search
-agent handles the rest, and uncertain cases go to a human review queue. Measured on a gold set.
+## Local and open-weight by design
 
-**[policy-evidence-mcp](https://github.com/flam7791/policy-evidence-mcp)**: an MCP server
-that gives AI assistants cited access to official statistics (SDMX) and policy documents
-(hybrid RAG: keywords plus embeddings), with a sensitivity ceiling. Read-only by design,
-rate-limited, with a retrieval evaluation as a CI gate.
-
-**[copilot-team-knowledge](https://github.com/flam7791/copilot-team-knowledge)**: a curated
-knowledge layer that Microsoft 365 Copilot answers from. A team keeps verified knowledge cards
-in SharePoint; a validator and a publisher release only active cards at or below a classification
-ceiling to the folder Copilot reads, so drafts, replaced decisions and restricted content never
-reach it. Runs as a declarative agent or, where agents are not available, as saved Copilot Chat
-prompts, and is evaluated on the failures that matter, including prompt injection.
-
-**[oecd-data-pipeline](https://github.com/flam7791/oecd-data-pipeline)**: turns OECD Data
-Explorer indicators into checked, plain-English country notes. Python fetches the data with its
-provenance, cleans it by rules and computes every figure; Microsoft 365 Copilot only writes the
-wording, from a saved prompt on small batches. A validator then rejects any note that skips a
-row, contradicts the figures or mentions a number not in the data, and sends it to a person for
-review. No API costs; tested offline in CI.
+Every system runs without a commercial API: Ollama on a laptop, or any OpenAI-compatible
+server (vLLM on a GPU server, for example), with commercial models as a governed choice through the gateway.
+Where I have measured it, the comparison is in the repository (for example the gateway's
+evaluation: a local 8B model passed as many tasks as the commercial strong model at zero API
+cost, at about 18 seconds per answer on a laptop CPU).
 
 ## How I build
 
 - Deterministic where possible, models where they add value, people where it matters
 - Guardrails enforced in code, not only in prompts
-- Every system ships with an evaluation and a cost figure
+- Every system ships with an evaluation, a cost figure and a way to run it locally
+- Standards that run: each repository is checked against the framework's standards in CI
 
 Built with AI-assisted development. The design decisions behind each project are documented in
 its `docs/` folder.
 
-`Python` · `pandas` · `SDMX` · `FastAPI` · `MCP` · `RAG` · `AI agents` · `Claude API` · `Azure OpenAI` · `Microsoft 365 Copilot` · `SharePoint` · `Ollama` · `Docker Compose` · `Prometheus` · `GitHub Actions`
+`Python` · `MCP` · `RAG` · `AI agents` · `FastAPI` · `pandas` · `SDMX` · `Claude API` · `Azure OpenAI` · `Microsoft 365 Copilot` · `SharePoint` · `Ollama` · `open-weight models` · `Docker Compose` · `Prometheus` · `GitHub Actions` · `Copier`
 
 Paris · English, Italian, Spanish, French (working knowledge)

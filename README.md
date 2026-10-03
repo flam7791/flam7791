@@ -22,13 +22,13 @@ template that starts every new project local-first, evaluated and production-rea
 | Stage | Repository | What it shows |
 |---|---|---|
 | **Identify** | [governed-agents](https://github.com/flam7791/governed-agents) (use-case triage desk) | Agents that register a proposed AI use case, assess risk and cost, choose a pattern and submit a decision record for sign-off |
-| **Build** | [policy-evidence-mcp](https://github.com/flam7791/policy-evidence-mcp) | An MCP server giving assistants cited access to official statistics (SDMX) and policy documents: hybrid RAG with a sensitivity ceiling, read-only by design, retrieval evaluation as a CI gate |
+| **Build** | [policy-evidence-mcp](https://github.com/flam7791/policy-evidence-mcp) | An MCP server giving assistants cited access to official statistics (SDMX) and policy documents: hybrid RAG with a sensitivity ceiling, per-caller access from bearer tokens or Entra ID app roles, SharePoint libraries synced through Microsoft Graph with Purview labels as the classification, retrieval evaluation as a CI gate |
 | | [reference-resolver-agent](https://github.com/flam7791/reference-resolver-agent) | Deterministic scoring first; the model chooses only among records actually retrieved; a bounded search agent; uncertain cases to a human review queue; measured on a gold set |
 | | [oecd-data-pipeline](https://github.com/flam7791/oecd-data-pipeline) | Python computes every figure, a model (Microsoft 365 Copilot or a local open-weight model) writes only the wording, and a validator rejects any note with a number not in the data |
-| | [copilot-team-knowledge](https://github.com/flam7791/copilot-team-knowledge) | A verified knowledge layer that Microsoft 365 Copilot answers from: only active cards at or below a classification ceiling are published; also answerable by a local model |
-| **Industrialise** | [governed-llm-gateway](https://github.com/flam7791/governed-llm-gateway) | One door to every model: routes each request to the cheapest adequate model (Claude, Azure OpenAI with Entra ID, or local), masks personal data, enforces budgets, chargeback without storing content |
-| | [governed-agents](https://github.com/flam7791/governed-agents) | Multi-agent runtime where a policy engine decides every tool call: least privilege, autonomy levels, four-eyes approval for external actions, audit trail, kill switch, trajectory evaluation with a planted prompt injection |
-| **Operate** | [governed-ai-platform](https://github.com/flam7791/governed-ai-platform) | The components as one operable service: hardened containers, Prometheus alerts, pinned versions, runbook, an end-to-end test in CI, and a sovereign mode in which no external model exists |
+| | [copilot-team-knowledge](https://github.com/flam7791/copilot-team-knowledge) | A verified knowledge layer that Microsoft 365 Copilot answers from: only active cards at or below a classification ceiling are published, to SharePoint through Microsoft Graph; also answerable by a local model |
+| **Industrialise** | [governed-llm-gateway](https://github.com/flam7791/governed-llm-gateway) | One door to every model: routes each request to the cheapest adequate model (Claude, Azure OpenAI with Entra ID, or local), masks personal data, enforces budgets, chargeback without storing content, OpenTelemetry traces |
+| | [governed-agents](https://github.com/flam7791/governed-agents) | Multi-agent runtime where a policy engine decides every tool call: least privilege, autonomy levels, four-eyes approval for external actions, audit trail, kill switch, trajectory evaluation with a planted prompt injection, one OpenTelemetry trace per run |
+| **Operate** | [governed-ai-platform](https://github.com/flam7791/governed-ai-platform) | The components as one operable service, on Docker Compose or Kubernetes (restricted pod security, default-deny network policies): Prometheus alerts, one trace per agent run across the services, pinned versions, runbook, an end-to-end test in CI, and a sovereign mode in which no external model exists |
 
 ## Local and open-weight by design
 
@@ -51,6 +51,6 @@ The first runs also exposed two integration bugs, now fixed and tested
 Built with AI-assisted development. The design decisions behind each project are documented in
 its `docs/` folder.
 
-`Python` · `MCP` · `RAG` · `AI agents` · `FastAPI` · `pandas` · `SDMX` · `Claude API` · `Azure OpenAI` · `Microsoft 365 Copilot` · `SharePoint` · `Ollama` · `open-weight models` · `Docker Compose` · `Prometheus` · `GitHub Actions` · `Copier`
+`Python` · `MCP` · `RAG` · `AI agents` · `FastAPI` · `pandas` · `SDMX` · `Claude API` · `Azure OpenAI` · `Microsoft 365 Copilot` · `SharePoint` · `Ollama` · `open-weight models` · `Microsoft Graph` · `Entra ID` · `Docker Compose` · `Kubernetes` · `Prometheus` · `OpenTelemetry` · `GitHub Actions` · `Copier`
 
 Paris · English, Italian, Spanish, French (working knowledge)

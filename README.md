@@ -32,11 +32,14 @@ template that starts every new project local-first, evaluated and production-rea
 
 ## Local and open-weight by design
 
-Every system runs without a commercial API: Ollama on a laptop, or any OpenAI-compatible
-server (vLLM on a GPU server, for example), with commercial models as a governed choice through the gateway.
-Where I have measured it, the comparison is in the repository (for example the gateway's
-evaluation: a local 8B model passed as many tasks as the commercial strong model at zero API
-cost, at about 18 seconds per answer on a laptop CPU).
+Every system runs without a commercial API: Ollama on a laptop, or any OpenAI-compatible server
+(vLLM on a GPU server, for example), with commercial models as a governed choice through the
+gateway. Measured with Llama 3.1 8B on a laptop CPU, answers recorded and replayed in CI: the
+resolver matched Claude (precision and recall 1.00) at zero cost; a service generated from the
+framework passed 10 of 10 cases, including one where the model followed a planted instruction and
+the validator withheld the answer; the knowledge layer passed 11 of 12 with no blocking failure.
+The first runs also exposed two integration bugs, now fixed and tested
+([details](https://github.com/flam7791/ai-engineering-framework/blob/main/docs/model-selection.md)).
 
 ## How I build
 

@@ -54,8 +54,10 @@ Every system runs without a commercial API: Ollama on a laptop, or any OpenAI-co
 gateway. Measured with Llama 3.1 8B on a laptop CPU, answers recorded and replayed in CI: the
 resolver matched Claude (precision and recall 1.00) at zero cost; a service generated from the
 framework passed 10 of 10 cases, including one where the model followed a planted instruction and
-the validator withheld the answer; the knowledge layer passed 11 of 12 with no blocking failure.
-The first runs also exposed two integration bugs, now fixed and tested
+the validator withheld the answer; the knowledge layer passed 11 of 12 with no blocking failure;
+the agents completed the briefing flow through a human approval and stopped safely, on the step
+budget, where the small model invented tools.
+The first runs also exposed two integration bugs and a flaw in a safety metric, now fixed and tested
 ([details](https://github.com/flam7791/ai-engineering-framework/blob/main/docs/model-selection.md)).
 
 ## How I build

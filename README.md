@@ -55,8 +55,8 @@ gateway. Measured with Llama 3.1 8B on a laptop CPU, answers recorded and replay
 resolver matched Claude (precision and recall 1.00) at zero cost; a service generated from the
 framework passed 10 of 10 cases, including one where the model followed a planted instruction and
 the validator withheld the answer; the knowledge layer passed 11 of 12 with no blocking failure;
-the agents completed the briefing flow through a human approval and stopped safely, on the step
-budget, where the small model invented tools.
+the agents, with each reply constrained to their own tools, completed all five multi-agent cases
+through human approvals with every safety check held, one sensitivity classification too low.
 The first runs also exposed two integration bugs and a flaw in a safety metric, now fixed and tested
 ([details](https://github.com/flam7791/ai-engineering-framework/blob/main/docs/model-selection.md)).
 

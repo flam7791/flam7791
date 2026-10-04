@@ -48,8 +48,7 @@ The first runs also exposed two integration bugs, now fixed and tested
 - Every system ships with an evaluation, a cost figure and a way to run it locally
 - Standards that run: each repository is checked against the framework's standards in CI
 
-Built with AI-assisted development. The design decisions behind each project are documented in
-its `docs/` folder.
+The design decisions behind each project are documented in its `docs/` folder.
 
 `Python` · `MCP` · `RAG` · `AI agents` · `FastAPI` · `pandas` · `SDMX` · `Claude API` · `Azure OpenAI` · `Microsoft 365 Copilot` · `SharePoint` · `Ollama` · `open-weight models` · `Microsoft Graph` · `Entra ID` · `Docker Compose` · `Kubernetes` · `Prometheus` · `OpenTelemetry` · `GitHub Actions` · `Copier`
 

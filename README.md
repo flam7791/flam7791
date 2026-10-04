@@ -6,6 +6,23 @@ framework that makes AI services consistent, and the working systems it is built
 tested, auditable, explicit about what they measure and what they cost, and able to run
 entirely on open-weight models on an organisation's own infrastructure.
 
+## Start here: five minutes
+
+1. **See a governed agent run end to end.** The
+   [platform's screenshots](https://github.com/flam7791/governed-ai-platform#see-it-running):
+   an agent's email waiting for a person, the audit trail with every policy decision and its
+   cost, and one OpenTelemetry trace across the agents, the LLM gateway and the MCP server.
+2. **Check that it is tested, not described.** Every repository's CI badge is green; the
+   platform's CI starts the whole stack and walks a run through a human approval, and a
+   [Kubernetes workflow](https://github.com/flam7791/governed-ai-platform/blob/main/docs/kubernetes.md)
+   deploys it to a cluster and checks that the network policies block what they should.
+3. **See the numbers.** [Measured results](#local-and-open-weight-by-design) with a local
+   open-weight model next to Claude, recorded and replayed in CI.
+4. **See how a new project starts.** The framework's
+   [use-case intake and service template](https://github.com/flam7791/ai-engineering-framework):
+   a proposal scored on sensitivity, cost and risk, then a service generated local-first with
+   its evaluation already wired in.
+
 ## The framework
 
 **[ai-engineering-framework](https://github.com/flam7791/ai-engineering-framework)**: how an

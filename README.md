@@ -51,13 +51,15 @@ template that starts every new project local-first, evaluated and production-rea
 
 Every system runs without a commercial API: Ollama on a laptop, or any OpenAI-compatible server
 (vLLM on a GPU server, for example), with commercial models as a governed choice through the
-gateway. Measured with Llama 3.1 8B on a laptop CPU, answers recorded and replayed in CI: the
-resolver matched Claude (precision and recall 1.00) at zero cost; a service generated from the
-framework passed 10 of 10 cases, including one where the model followed a planted instruction and
-the validator withheld the answer; the knowledge layer passed 11 of 12 with no blocking failure;
-the agents, with each reply constrained to their own tools, completed all five multi-agent cases
-through human approvals with every safety check held, one sensitivity classification too low.
-The first runs also exposed two integration bugs and a flaw in a safety metric, now fixed and tested
+gateway. Measured with two open-weight models, Llama 3.1 8B and Qwen 2.5 7B, on a laptop CPU,
+answers recorded and replayed in CI: both matched Claude on the resolver (precision and recall
+1.00) at zero cost; both passed 10 of 10 cases on a service generated from the framework,
+including one where the model followed a planted instruction and the validator withheld the
+answer; with each reply constrained to their own tools, both completed all five multi-agent
+cases through human approvals with every safety check held. Neither was better everywhere, which
+is why each service is measured on its own cases. Each model also exposed something scripted
+tests had not (integration bugs, a flaw in a safety metric, a false link, an agent reporting work
+it had not done), now fixed and tested
 ([details](https://github.com/flam7791/ai-engineering-framework/blob/main/docs/model-selection.md)).
 
 ## How I build

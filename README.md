@@ -22,12 +22,15 @@ entirely on open-weight models on an organisation's own infrastructure.
    [use-case intake and service template](https://github.com/flam7791/ai-engineering-framework):
    a proposal scored on sensitivity, cost and risk, then a service generated local-first with
    its evaluation already wired in.
+5. **See a negative result.** The gateway's
+   [judged router](https://github.com/flam7791/governed-llm-gateway#judged-routing-04) lost to
+   plain rules, and the README says so, with the recording CI replays.
 
 ## The framework
 
 **[ai-engineering-framework](https://github.com/flam7791/ai-engineering-framework)**: how an
 organisation identifies, builds, industrialises and operates AI solutions the same way every
-time. A reference architecture with on-premises, hybrid and cloud topologies; six solution
+time. A reference architecture with on-premises, hybrid and cloud topologies; seven solution
 patterns, each with a working reference implementation below; engineering standards that run as
 checks in CI (`aief check`); a use-case intake that scores proposals on feasibility, information
 sensitivity, security, cost, scalability, interoperability and sustainability and recommends a
@@ -62,12 +65,32 @@ tests had not (integration bugs, a flaw in a safety metric, a false link, an age
 it had not done), now fixed and tested
 ([details](https://github.com/flam7791/ai-engineering-framework/blob/main/docs/model-selection.md)).
 
+## Bounded judgment, measured where it helps and where it does not
+
+Where software needs a decision rather than a paragraph (pick a candidate, grade a passage,
+route a request), the model answers from a closed set, anything else counts as no decision, and
+code corroborates the answer before it acts. Measured on open-weight models on a laptop CPU:
+
+| Where | Result | What decided it |
+|---|---|---|
+| [Reference resolver](https://github.com/flam7791/reference-resolver-agent): choose among retrieved records | Precision 1.00 with Claude, Llama 3.1 8B and Qwen 2.5 7B | Qwen's wrong choices came with confidence 0.95 and 0.80; code-side checks sent both to a person |
+| [Evidence server](https://github.com/flam7791/policy-evidence-mcp): rerank passages | hit@3 0.77 to 0.85 on paraphrased questions, no leak | Malformed replies became "no decision"; a shorter answer format measured worse and stays off |
+| [Gateway](https://github.com/flam7791/governed-llm-gateway): judge request difficulty | 14/24 against the rules' 22/24; stays off | The judge called almost everything simple, with confidence 0.9 to 1.0 |
+
+The common lesson, written into the framework's
+[pattern P7](https://github.com/flam7791/ai-engineering-framework/blob/main/docs/patterns.md):
+a model's stated confidence carried no information; the closed answer set and checks in code
+did the work.
+
 ## How I build
 
 - Deterministic where possible, models where they add value, people where it matters
 - Guardrails enforced in code, not only in prompts
 - Every system ships with an evaluation, a cost figure and a way to run it locally
 - Standards that run: each repository is checked against the framework's standards in CI
+- Losses are published like wins: a model step that does not beat the baseline stays off
+- Ready for coding agents: every repository has an `AGENTS.md` with its commands and the
+  invariants nobody may weaken, and the tool servers ship skills for assistants
 
 The design decisions behind each project are documented in its `docs/` folder.
 

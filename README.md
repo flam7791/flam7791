@@ -74,7 +74,7 @@ code corroborates the answer before it acts. Measured on open-weight models on a
 | Where | Result | What decided it |
 |---|---|---|
 | [Reference resolver](https://github.com/flam7791/reference-resolver-agent): choose among retrieved records | Precision 1.00 with Claude, Llama 3.1 8B and Qwen 2.5 7B | Qwen's wrong choices came with confidence 0.95 and 0.80; code-side checks sent both to a person |
-| [Evidence server](https://github.com/flam7791/policy-evidence-mcp): rerank passages | hit@3 0.77 to 0.85 on paraphrased questions, no leak | Malformed replies became "no decision"; a shorter answer format measured worse and stays off |
+| [Evidence server](https://github.com/flam7791/policy-evidence-mcp): rerank passages | hit@3 0.90 to 0.95 on 40 paraphrased questions, no leak | Most replies for 20 passages were incomplete and became "no decision"; on the first 13 questions the gain had looked twice as large |
 | [Gateway](https://github.com/flam7791/governed-llm-gateway): judge request difficulty | 14/24 against the rules' 22/24; stays off | The judge called almost everything simple, with confidence 0.9 to 1.0 |
 
 The common lesson, written into the framework's

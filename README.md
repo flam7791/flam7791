@@ -82,6 +82,22 @@ The common lesson, written into the framework's
 a model's stated confidence carried no information; the closed answer set and checks in code
 did the work.
 
+## Product work: from evidence to a team-ready MVP
+
+Two MVPs built the way I would run a product with a team: discovery with falsifiable hypotheses,
+a PRD with non-goals, RICE prioritisation with the cut line, a pilot whose decision rules are fixed
+before launch, and a team pack (brief, RACI, backlog, sprint plan, working agreement) in which CI
+fails if a story marked Done has no test proving it. Each README opens with a ten-minute reading
+path through the product case.
+
+| Repository | The product | Worth a look |
+|---|---|---|
+| [ai-adoption-tracker](https://github.com/flam7791/ai-adoption-tracker) | Evidence for an AI review committee: which pilots to scale, iterate or stop, with every check's value and threshold; the tool recommends, the committee decides | The [PRD](https://github.com/flam7791/ai-adoption-tracker/blob/main/docs/product/02-prd.md), the [decision log](https://github.com/flam7791/ai-adoption-tracker/blob/main/docs/product/06-decision-log.md), how overrides are flagged |
+| [obligations-register](https://github.com/flam7791/obligations-register) | A draft obligations register from contracts and policies: every line the exact sentence with its location; a model may only add whole sentences that exist in the source | The [held-out result](https://github.com/flam7791/obligations-register/blob/main/eval/EVALS.md) (deadline accuracy 0.64) and why it was not patched |
+
+The two are linked: the register is a pilot in the tracker's sample portfolio and logs its own
+usage in the tracker's event format, so its scale-or-stop review rests on evidence.
+
 ## How I build
 
 - Deterministic where possible, models where they add value, people where it matters

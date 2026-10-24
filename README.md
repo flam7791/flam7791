@@ -84,19 +84,21 @@ did the work.
 
 ## Product work: from evidence to a team-ready MVP
 
-Two MVPs built the way I would run a product with a team: discovery with falsifiable hypotheses,
-a PRD with non-goals, RICE prioritisation with the cut line, a pilot whose decision rules are fixed
-before launch, and a team pack (brief, RACI, backlog, sprint plan, working agreement) in which CI
-fails if a story marked Done has no test proving it. Each README opens with a ten-minute reading
-path through the product case.
+Three MVPs built the way I would run a product with a team: discovery with falsifiable hypotheses,
+a PRD with non-goals, explicit prioritisation (RICE or WSJF) with the cut line, a pilot whose
+decision rules are fixed before launch, and a team pack (brief, RACI, backlog, iteration plan,
+working agreement) in which CI fails if a story marked Done has no test proving it. Each README
+opens with a ten-minute reading path through the product case.
 
 | Repository | The product | Worth a look |
 |---|---|---|
 | [ai-adoption-tracker](https://github.com/flam7791/ai-adoption-tracker) | Evidence for an AI review committee: which pilots to scale, iterate or stop, with every check's value and threshold; the tool recommends, the committee decides | The [PRD](https://github.com/flam7791/ai-adoption-tracker/blob/main/docs/product/02-prd.md), the [decision log](https://github.com/flam7791/ai-adoption-tracker/blob/main/docs/product/06-decision-log.md), how overrides are flagged |
 | [obligations-register](https://github.com/flam7791/obligations-register) | A draft obligations register from contracts and policies: every line the exact sentence with its location; a model may only add whole sentences that exist in the source | The [held-out result](https://github.com/flam7791/obligations-register/blob/main/eval/EVALS.md) (deadline accuracy 0.64) and why it was not patched |
+| [agentic-procurement-intake](https://github.com/flam7791/agentic-procurement-intake) | A corporate process redesigned AI-first: an agent turns a staff purchase request into a package procurement can approve on first review (method with its rule, framework reuse, split-purchase check, draft TOR); people confirm, approve and sign off, enforced in code | The [service blueprint](https://github.com/flam7791/agentic-procurement-intake/blob/main/docs/product/02-service-blueprint.md) with autonomy levels per step, the [build, buy, reuse or stop case](https://github.com/flam7791/agentic-procurement-intake/blob/main/docs/product/03-options-and-investment-case.md), the WSJF [roadmap](https://github.com/flam7791/agentic-procurement-intake/blob/main/docs/product/05-roadmap-and-prioritisation.md) |
 
-The two are linked: the register is a pilot in the tracker's sample portfolio and logs its own
-usage in the tracker's event format, so its scale-or-stop review rests on evidence.
+The three are linked: the register is a pilot in the tracker's sample portfolio, and both the
+register and the intake desk log their usage in the tracker's event format, so their scale-or-stop
+reviews rest on evidence.
 
 ## How I build
 

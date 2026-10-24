@@ -94,13 +94,14 @@ cost, and one OpenTelemetry trace across the agents, the LLM gateway and the MCP
 ## Measured, including where it lost
 
 Every system runs without a commercial API, on Ollama on a laptop or any OpenAI-compatible server,
-with commercial models as a governed choice through the gateway. Measured with two open-weight
-models, Llama 3.1 8B and Qwen 2.5 7B, on a laptop CPU, with answers recorded and replayed in CI:
-both matched Claude on the resolver (precision and recall 1.00) at zero cost; both passed 10 of 10
+with commercial models as a governed choice through the gateway. Measured on a laptop CPU, with
+answers recorded and replayed in CI: Llama 3.1 8B and Qwen 2.5 7B matched Claude on the resolver
+(precision and recall 1.00) at zero cost; they and Mistral's Ministral 3 8B each passed 10 of 10
 cases on a service generated from the framework, including one where the model followed a planted
-instruction and the validator withheld the answer; and both completed all five multi-agent cases
-through human approvals with every safety check held. Neither was better everywhere, which is why
-each service is measured on its own cases
+instruction and the validator withheld the answer; and all three completed the five multi-agent
+cases through human approvals with every safety check held, Ministral also getting right the
+sensitivity and risk judgements the other two missed. No model was better everywhere, which is
+why each service is measured on its own cases
 ([details](https://github.com/flam7791/ai-engineering-framework/blob/main/docs/model-selection.md)).
 
 Where software needs a decision rather than a paragraph, the model answers from a closed set,
@@ -110,7 +111,7 @@ anything else counts as no decision, and code checks the answer before it acts:
 |---|---|---|
 | [Reference resolver](https://github.com/flam7791/reference-resolver-agent): choose among retrieved records | Precision 1.00 with Claude, Llama 3.1 8B and Qwen 2.5 7B | Qwen's wrong choices came with confidence 0.95 and 0.80; code-side checks sent both to a person |
 | [Evidence server](https://github.com/flam7791/policy-evidence-mcp): rerank passages | hit@3 0.90 to 0.95 on 40 paraphrased questions, no leak | Most replies for 20 passages were incomplete and became "no decision"; on the first 13 questions the gain had looked twice as large |
-| [Gateway](https://github.com/flam7791/governed-llm-gateway#judged-routing-04): judge request difficulty | 14/24 against the rules' 22/24; stays off | The judge called almost everything simple, with confidence 0.9 to 1.0 |
+| [Gateway](https://github.com/flam7791/governed-llm-gateway#judged-routing-04): judge request difficulty | 14/24 (Llama 3.1 8B) and 17/24 (Ministral 3 8B) against the rules' 22/24; stays off | Both judges called most hard tasks simple, with confidence 0.9 to 1.0 |
 
 The lesson, written into the framework's
 [pattern P7](https://github.com/flam7791/ai-engineering-framework/blob/main/docs/patterns.md): a

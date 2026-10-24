@@ -1,106 +1,121 @@
 # Flavio
 
-I work on enterprise AI adoption and governance: moving AI from pilots to governed, measurable
-services in large organisations. These repositories show how I approach it in practice: a
-framework that makes AI services consistent, and the working systems it is built from. Small,
-tested, auditable, explicit about what they measure and what they cost, and able to run
-entirely on open-weight models on an organisation's own infrastructure.
+I build AI products for large organisations, the product way: start from the people who do the
+work, decide what to build and what to leave out, and prove with evidence whether it worked. These
+repositories are that work in public: four product MVPs, each taken from discovery to a pilot a
+team could run, and the governed AI platform they are built on, tested, measured and able to run
+entirely on an organisation's own infrastructure.
 
-## Start here: five minutes
+## Start here: ten minutes on the product work
 
-1. **See a governed agent run end to end.** The
-   [platform's screenshots](https://github.com/flam7791/governed-ai-platform#see-it-running):
-   an agent's email waiting for a person, the audit trail with every policy decision and its
-   cost, and one OpenTelemetry trace across the agents, the LLM gateway and the MCP server.
-2. **Check that it is tested, not described.** Every repository's CI badge is green; the
-   platform's CI starts the whole stack and walks a run through a human approval, and a
-   [Kubernetes workflow](https://github.com/flam7791/governed-ai-platform/blob/main/docs/kubernetes.md)
-   deploys it to a cluster and checks that the network policies block what they should.
-3. **See the numbers.** [Measured results](#local-and-open-weight-by-design) with a local
-   open-weight model next to Claude, recorded and replayed in CI.
-4. **See how a new project starts.** The framework's
-   [use-case intake and service template](https://github.com/flam7791/ai-engineering-framework):
-   a proposal scored on sensitivity, cost and risk, then a service generated local-first with
-   its evaluation already wired in.
-5. **See a negative result.** The gateway's
-   [judged router](https://github.com/flam7791/governed-llm-gateway#judged-routing-04) lost to
-   plain rules, and the README says so, with the recording CI replays.
+1. **Evidence overturning a sponsor's priority.** In feedback-to-roadmap's
+   [worked example](https://github.com/flam7791/feedback-to-roadmap/blob/main/docs/product/07-worked-example.md),
+   eight weeks of feedback, counted in people rather than rows, move the sponsor's top item
+   (outdated content) to fourth of eight problems, behind one that 30 people raised and that had
+   made 22 of them stop using the assistant.
+2. **Decision rules fixed before the pilot.** ai-adoption-tracker's
+   [PRD](https://github.com/flam7791/ai-adoption-tracker/blob/main/docs/product/02-prd.md) and
+   [decision log](https://github.com/flam7791/ai-adoption-tracker/blob/main/docs/product/06-decision-log.md):
+   what counts as scale, iterate or stop for an AI pilot, and how a committee's override is
+   recorded rather than hidden.
+3. **A process redesigned AI-first, with its investment case.** agentic-procurement-intake's
+   [service blueprint](https://github.com/flam7791/agentic-procurement-intake/blob/main/docs/product/02-service-blueprint.md)
+   gives every step an owner and an autonomy level; the
+   [options case](https://github.com/flam7791/agentic-procurement-intake/blob/main/docs/product/03-options-and-investment-case.md)
+   weighs building against buying, reusing, partnering or stopping.
+4. **A weak result published, not patched.** obligations-register's
+   [held-out evaluation](https://github.com/flam7791/obligations-register/blob/main/eval/EVALS.md)
+   (deadline accuracy 0.64) and why it was not tuned away.
+5. **A team could pick it up on Monday.** Each MVP ships a team pack (brief and RACI, backlog,
+   iteration plan, working agreement), and CI fails if a story marked Done has no test proving
+   it, as in ai-adoption-tracker's
+   [traceability](https://github.com/flam7791/ai-adoption-tracker/blob/main/docs/team/traceability.md).
 
-## The framework
+## Four product MVPs
 
-**[ai-engineering-framework](https://github.com/flam7791/ai-engineering-framework)**: how an
-organisation identifies, builds, industrialises and operates AI solutions the same way every
-time. A reference architecture with on-premises, hybrid and cloud topologies; seven solution
-patterns, each with a working reference implementation below; engineering standards that run as
-checks in CI (`aief check`); a use-case intake that scores proposals on feasibility, information
-sensitivity, security, cost, scalability, interoperability and sustainability and recommends a
-pattern and topology (`aief intake`); lifecycle gates and a handover pack; and a service
-template that starts every new project local-first, evaluated and production-ready.
+Each starts from a problem a large organisation has with AI, or with work AI could take on. Its
+hypotheses and non-goals are written before any code, its pilot's decision rules are fixed before
+launch, and its README opens with a ten-minute reading path through the product case.
 
-## Reference implementations, by stage
-
-| Stage | Repository | What it shows |
-|---|---|---|
-| **Identify** | [governed-agents](https://github.com/flam7791/governed-agents) (use-case triage desk) | Agents that register a proposed AI use case, assess risk and cost, choose a pattern and submit a decision record for sign-off |
-| **Build** | [policy-evidence-mcp](https://github.com/flam7791/policy-evidence-mcp) | An MCP server giving assistants cited access to official statistics (SDMX) and policy documents: hybrid RAG with a sensitivity ceiling, per-caller access from bearer tokens or Entra ID app roles, SharePoint libraries synced through Microsoft Graph with Purview labels as the classification, served to Microsoft 365 Copilot through Copilot Studio within each user's roles, retrieval evaluation as a CI gate |
-| | [reference-resolver-agent](https://github.com/flam7791/reference-resolver-agent) | Deterministic scoring first; the model chooses only among records actually retrieved; a bounded search agent; uncertain cases to a human review queue; measured on a gold set |
-| | [oecd-data-pipeline](https://github.com/flam7791/oecd-data-pipeline) | Python computes every figure, a model (Microsoft 365 Copilot or a local open-weight model) writes only the wording, and a validator rejects any note with a number not in the data |
-| | [copilot-team-knowledge](https://github.com/flam7791/copilot-team-knowledge) | A verified knowledge layer that Microsoft 365 Copilot answers from: only active cards at or below a classification ceiling are published, to SharePoint through Microsoft Graph; also answerable by a local model |
-| **Industrialise** | [governed-llm-gateway](https://github.com/flam7791/governed-llm-gateway) | One door to every model: routes each request to the cheapest adequate model (Claude, Azure OpenAI with Entra ID, or local), masks personal data, enforces budgets, chargeback without storing content, OpenTelemetry traces |
-| | [governed-agents](https://github.com/flam7791/governed-agents) | Multi-agent runtime where a policy engine decides every tool call: least privilege, autonomy levels, four-eyes approval for external actions, audit trail, kill switch, trajectory evaluation with a planted prompt injection, one OpenTelemetry trace per run |
-| **Operate** | [governed-ai-platform](https://github.com/flam7791/governed-ai-platform) | The components as one operable service, on Docker Compose, Kubernetes (restricted pod security, default-deny network policies) or Azure Container Apps in Bicep (Key Vault, managed identity, Azure OpenAI with no key): Prometheus alerts, one trace per agent run across the services, pinned versions, runbook, an end-to-end test in CI, and a sovereign mode in which no external model exists |
-
-## Local and open-weight by design
-
-Every system runs without a commercial API: Ollama on a laptop, or any OpenAI-compatible server
-(vLLM on a GPU server, for example), with commercial models as a governed choice through the
-gateway. Measured with two open-weight models, Llama 3.1 8B and Qwen 2.5 7B, on a laptop CPU,
-answers recorded and replayed in CI: both matched Claude on the resolver (precision and recall
-1.00) at zero cost; both passed 10 of 10 cases on a service generated from the framework,
-including one where the model followed a planted instruction and the validator withheld the
-answer; with each reply constrained to their own tools, both completed all five multi-agent
-cases through human approvals with every safety check held. Neither was better everywhere, which
-is why each service is measured on its own cases. Each model also exposed something scripted
-tests had not (integration bugs, a flaw in a safety metric, a false link, an agent reporting work
-it had not done), now fixed and tested
-([details](https://github.com/flam7791/ai-engineering-framework/blob/main/docs/model-selection.md)).
-
-## Bounded judgment, measured where it helps and where it does not
-
-Where software needs a decision rather than a paragraph (pick a candidate, grade a passage,
-route a request), the model answers from a closed set, anything else counts as no decision, and
-code corroborates the answer before it acts. Measured on open-weight models on a laptop CPU:
-
-| Where | Result | What decided it |
-|---|---|---|
-| [Reference resolver](https://github.com/flam7791/reference-resolver-agent): choose among retrieved records | Precision 1.00 with Claude, Llama 3.1 8B and Qwen 2.5 7B | Qwen's wrong choices came with confidence 0.95 and 0.80; code-side checks sent both to a person |
-| [Evidence server](https://github.com/flam7791/policy-evidence-mcp): rerank passages | hit@3 0.90 to 0.95 on 40 paraphrased questions, no leak | Most replies for 20 passages were incomplete and became "no decision"; on the first 13 questions the gain had looked twice as large |
-| [Gateway](https://github.com/flam7791/governed-llm-gateway): judge request difficulty | 14/24 against the rules' 22/24; stays off | The judge called almost everything simple, with confidence 0.9 to 1.0 |
-
-The common lesson, written into the framework's
-[pattern P7](https://github.com/flam7791/ai-engineering-framework/blob/main/docs/patterns.md):
-a model's stated confidence carried no information; the closed answer set and checks in code
-did the work.
-
-## Product work: from evidence to a team-ready MVP
-
-Four MVPs built the way I would run a product with a team: discovery with falsifiable hypotheses,
-a PRD with non-goals, explicit prioritisation (RICE or WSJF) with the cut line, a pilot whose
-decision rules are fixed before launch, and a team pack (brief, RACI, backlog, iteration plan,
-working agreement) in which CI fails if a story marked Done has no test proving it. Each README
-opens with a ten-minute reading path through the product case.
-
-| Repository | The product | Worth a look |
-|---|---|---|
-| [ai-adoption-tracker](https://github.com/flam7791/ai-adoption-tracker) | Evidence for an AI review committee: which pilots to scale, iterate or stop, with every check's value and threshold; the tool recommends, the committee decides | The [PRD](https://github.com/flam7791/ai-adoption-tracker/blob/main/docs/product/02-prd.md), the [decision log](https://github.com/flam7791/ai-adoption-tracker/blob/main/docs/product/06-decision-log.md), how overrides are flagged |
-| [obligations-register](https://github.com/flam7791/obligations-register) | A draft obligations register from contracts and policies: every line the exact sentence with its location; a model may only add whole sentences that exist in the source | The [held-out result](https://github.com/flam7791/obligations-register/blob/main/eval/EVALS.md) (deadline accuracy 0.64) and why it was not patched |
-| [feedback-to-roadmap](https://github.com/flam7791/feedback-to-roadmap) | Continuous discovery for an internal AI assistant: feedback from four channels counted in people, not rows, with verbatim quotes, silent segments and spikes; RICE changes proposed with their rules; the product owner accepts, rejects or pins, each with a note | The [worked example](https://github.com/flam7791/feedback-to-roadmap/blob/main/docs/product/07-worked-example.md) where evidence overturns the sponsor's priority, the [decision log](https://github.com/flam7791/feedback-to-roadmap/blob/main/docs/product/06-decision-log.md), the [held-out result](https://github.com/flam7791/feedback-to-roadmap/blob/main/evals/EVALS.md) (precision 0.69, recall 0.24) and what it changed |
-| [agentic-procurement-intake](https://github.com/flam7791/agentic-procurement-intake) | A corporate process redesigned AI-first: an agent turns a staff purchase request into a package procurement can approve on first review (method with its rule, framework reuse, split-purchase check, draft TOR); people confirm, approve and sign off, enforced in code | The [service blueprint](https://github.com/flam7791/agentic-procurement-intake/blob/main/docs/product/02-service-blueprint.md) with autonomy levels per step, the [build, buy, reuse or stop case](https://github.com/flam7791/agentic-procurement-intake/blob/main/docs/product/03-options-and-investment-case.md), the WSJF [roadmap](https://github.com/flam7791/agentic-procurement-intake/blob/main/docs/product/05-roadmap-and-prioritisation.md) |
+| Product | The problem, and for whom | What it does | Worth a look |
+|---|---|---|---|
+| [feedback-to-roadmap](https://github.com/flam7791/feedback-to-roadmap) | The product owner of an internal AI assistant: plenty of feedback, still prioritised by whoever argued best in the last meeting | Counts people, not rows, across four channels, with verbatim quotes, silent segments and spikes; proposes RICE changes with their rules; the product owner accepts, rejects or pins, each with a note | The [worked example](https://github.com/flam7791/feedback-to-roadmap/blob/main/docs/product/07-worked-example.md), the [decision log](https://github.com/flam7791/feedback-to-roadmap/blob/main/docs/product/06-decision-log.md), the [held-out result](https://github.com/flam7791/feedback-to-roadmap/blob/main/evals/EVALS.md) (precision 0.69, recall 0.24) and what it changed |
+| [ai-adoption-tracker](https://github.com/flam7791/ai-adoption-tracker) | An AI review committee with a dozen pilots and no comparable view of which ones are used and worth what they cost | A review pack from the use-case register and usage events: scale, iterate or stop, with every check's value and threshold; the tool recommends, the committee decides | The [PRD](https://github.com/flam7791/ai-adoption-tracker/blob/main/docs/product/02-prd.md), the [decision log](https://github.com/flam7791/ai-adoption-tracker/blob/main/docs/product/06-decision-log.md), how overrides are flagged |
+| [agentic-procurement-intake](https://github.com/flam7791/agentic-procurement-intake) | Staff and procurement officers: buying a service starts with an email and weeks of questions | An agent turns a purchase request into a package procurement can approve on first review (method with its rule, framework reuse, split-purchase check, draft TOR); people confirm, approve and sign off, enforced in code | The [service blueprint](https://github.com/flam7791/agentic-procurement-intake/blob/main/docs/product/02-service-blueprint.md), the [build, buy, reuse or stop case](https://github.com/flam7791/agentic-procurement-intake/blob/main/docs/product/03-options-and-investment-case.md), the WSJF [roadmap](https://github.com/flam7791/agentic-procurement-intake/blob/main/docs/product/05-roadmap-and-prioritisation.md) |
+| [obligations-register](https://github.com/flam7791/obligations-register) | Teams who must know who must do what, by when, from contracts and policies tracked late, by hand, or not at all | A draft register in which every line is the exact sentence from the source, with its location; what it is unsure of goes to a review queue with the reason | The [held-out result](https://github.com/flam7791/obligations-register/blob/main/eval/EVALS.md) (deadline accuracy 0.64) and why it was not patched |
 
 The four are linked: the tracker decides which assistants scale, iterate or stop; feedback-to-roadmap
 plans the iterate cycle for one of them, from the same users; and the register, the intake desk and
 the feedback tool log their own usage in the tracker's event format, so their scale-or-stop reviews
 rest on evidence.
+
+## How I run a product
+
+- **Discovery before delivery.** Personas, jobs to be done and falsifiable hypotheses, each with
+  the result that would kill it, written before anything is built.
+- **Scope with non-goals.** The PRD says what the product will not do as clearly as what it will.
+- **Prioritisation in the open.** RICE or WSJF, with the cut line visible and the calls worth
+  explaining written down.
+- **Pilot rules decided in advance.** Success metrics and the scale, iterate or stop rules are
+  fixed before launch, so a result cannot be argued into a win afterwards.
+- **Evidence over anecdote.** Usage counted in people, held-out evaluations, and results published
+  when they disappoint.
+- **People decide.** The tool recommends; approvals and sign-offs stay with people, enforced in
+  code rather than in a prompt.
+- **Ready for a team.** Backlog, iteration plan, working agreement, and traceability from every
+  story to the test that proves it.
+
+## The platform underneath
+
+A product reaches its users only if the AI inside it can be governed, measured and operated.
+**[ai-engineering-framework](https://github.com/flam7791/ai-engineering-framework)** makes that
+repeatable: a use-case intake that scores proposals on feasibility, information sensitivity,
+security, cost, scalability, interoperability and sustainability and recommends a pattern
+(`aief intake`); seven solution patterns, each with a working reference implementation; a reference
+architecture for on-premises, hybrid and cloud; lifecycle gates and a handover pack; engineering
+standards that run as checks in CI (`aief check`); and a service template that starts every new
+project local-first, with its evaluation wired in.
+
+| Stage | Repository | What it gives a product team |
+|---|---|---|
+| **Identify** | [governed-agents](https://github.com/flam7791/governed-agents) (use-case triage desk) | A proposed use case registered, assessed for risk and cost, matched to a pattern and submitted for sign-off |
+| **Build** | [policy-evidence-mcp](https://github.com/flam7791/policy-evidence-mcp) | Cited answers from official statistics (SDMX) and documents for any assistant, within each caller's clearance (Entra ID app roles, Purview labels from SharePoint), served to Microsoft 365 Copilot through Copilot Studio; retrieval evaluation as a CI gate |
+| | [reference-resolver-agent](https://github.com/flam7791/reference-resolver-agent) | Deterministic scoring first; the model chooses only among records actually retrieved; uncertain cases go to a person; measured on a gold set |
+| | [oecd-data-pipeline](https://github.com/flam7791/oecd-data-pipeline) | Python computes every figure, a model writes only the wording, and a validator rejects any note with a number not in the data |
+| | [copilot-team-knowledge](https://github.com/flam7791/copilot-team-knowledge) | A verified knowledge layer Microsoft 365 Copilot answers from, published only at or below a classification ceiling; also answerable by a local model |
+| **Industrialise** | [governed-llm-gateway](https://github.com/flam7791/governed-llm-gateway) | One door to every model: each request goes to the cheapest adequate model (Claude, Azure OpenAI with Entra ID, Mistral AI, or local) within the team's data policy and budget, personal data masked, chargeback without storing content, OpenTelemetry traces |
+| | [governed-agents](https://github.com/flam7791/governed-agents) | A multi-agent runtime where a policy engine decides every tool call: least privilege, autonomy levels, four-eyes approval for external actions, audit trail, kill switch, trajectory evaluation with a planted prompt injection |
+| **Operate** | [governed-ai-platform](https://github.com/flam7791/governed-ai-platform) | The components as one operable service on Docker Compose, Kubernetes (restricted pod security, default-deny network policies) or Azure Container Apps in Bicep: alerts, one trace per agent run across the services, a runbook, an end-to-end test in CI, and a sovereign mode in which no external model exists |
+
+To see it running, the platform's [screenshots](https://github.com/flam7791/governed-ai-platform#see-it-running)
+show an agent's email waiting for a person, the audit trail with every policy decision and its
+cost, and one OpenTelemetry trace across the agents, the LLM gateway and the MCP server.
+
+## Measured, including where it lost
+
+Every system runs without a commercial API, on Ollama on a laptop or any OpenAI-compatible server,
+with commercial models as a governed choice through the gateway. Measured with two open-weight
+models, Llama 3.1 8B and Qwen 2.5 7B, on a laptop CPU, with answers recorded and replayed in CI:
+both matched Claude on the resolver (precision and recall 1.00) at zero cost; both passed 10 of 10
+cases on a service generated from the framework, including one where the model followed a planted
+instruction and the validator withheld the answer; and both completed all five multi-agent cases
+through human approvals with every safety check held. Neither was better everywhere, which is why
+each service is measured on its own cases
+([details](https://github.com/flam7791/ai-engineering-framework/blob/main/docs/model-selection.md)).
+
+Where software needs a decision rather than a paragraph, the model answers from a closed set,
+anything else counts as no decision, and code checks the answer before it acts:
+
+| Where | Result | What decided it |
+|---|---|---|
+| [Reference resolver](https://github.com/flam7791/reference-resolver-agent): choose among retrieved records | Precision 1.00 with Claude, Llama 3.1 8B and Qwen 2.5 7B | Qwen's wrong choices came with confidence 0.95 and 0.80; code-side checks sent both to a person |
+| [Evidence server](https://github.com/flam7791/policy-evidence-mcp): rerank passages | hit@3 0.90 to 0.95 on 40 paraphrased questions, no leak | Most replies for 20 passages were incomplete and became "no decision"; on the first 13 questions the gain had looked twice as large |
+| [Gateway](https://github.com/flam7791/governed-llm-gateway#judged-routing-04): judge request difficulty | 14/24 against the rules' 22/24; stays off | The judge called almost everything simple, with confidence 0.9 to 1.0 |
+
+The lesson, written into the framework's
+[pattern P7](https://github.com/flam7791/ai-engineering-framework/blob/main/docs/patterns.md): a
+model's stated confidence carried no information; the closed answer set and the checks in code did
+the work. A model step that does not beat the baseline stays off, and the README says so.
 
 ## How I build
 
@@ -108,12 +123,11 @@ rest on evidence.
 - Guardrails enforced in code, not only in prompts
 - Every system ships with an evaluation, a cost figure and a way to run it locally
 - Standards that run: each repository is checked against the framework's standards in CI
-- Losses are published like wins: a model step that does not beat the baseline stays off
 - Ready for coding agents: every repository has an `AGENTS.md` with its commands and the
-  invariants nobody may weaken, and the tool servers ship skills for assistants
+  invariants nobody may weaken; the design decisions are in each project's `docs/` folder
 
-The design decisions behind each project are documented in its `docs/` folder.
+**Product:** discovery · jobs to be done · PRD · RICE · WSJF · pilot design · success metrics · decision logs · team packs
 
-`Python` · `MCP` · `RAG` · `AI agents` · `FastAPI` · `pandas` · `SDMX` · `Claude API` · `Azure OpenAI` · `Microsoft 365 Copilot` · `SharePoint` · `Ollama` · `open-weight models` · `Microsoft Graph` · `Entra ID` · `Copilot Studio` · `Azure Container Apps` · `Bicep` · `Docker Compose` · `Kubernetes` · `Prometheus` · `OpenTelemetry` · `GitHub Actions` · `Copier`
+**Tech:** `Python` · `MCP` · `RAG` · `AI agents` · `FastAPI` · `pandas` · `SDMX` · `Claude API` · `Azure OpenAI` · `Mistral AI` · `Microsoft 365 Copilot` · `SharePoint` · `Ollama` · `open-weight models` · `Microsoft Graph` · `Entra ID` · `Copilot Studio` · `Azure Container Apps` · `Bicep` · `Docker Compose` · `Kubernetes` · `Prometheus` · `OpenTelemetry` · `GitHub Actions` · `Copier`
 
 Paris · English, Italian, Spanish, French (working knowledge)

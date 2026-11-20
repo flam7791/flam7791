@@ -1,4 +1,4 @@
-﻿# Flavio Mericio
+﻿# Flavio 
 
 I design AI adoption and governance for large organisations and take AI agents from prototype to production: use-case portfolios and value tracking, governance that sits inside delivery, process redesign with process mining, and data governance that owners actually adopt. I work in Italian, English, Spanish and French.
 

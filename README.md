@@ -1,6 +1,6 @@
 ﻿# Flavio Mericio
 
-I design AI adoption and governance for large organisations and take AI agents from prototype to production: use-case portfolios and value tracking, governance that sits inside delivery, process redesign with process mining, and data governance that owners actually adopt. Certified Data Management Professional (CDMP), Six Sigma Black Belt, MSc in Data Science. I work in Italian, English, Spanish and French.
+I design AI adoption and governance for large organisations and take AI agents from prototype to production: use-case portfolios and value tracking, governance that sits inside delivery, process redesign with process mining, and data governance that owners actually adopt. I work in Italian, English, Spanish and French.
 
 Every repository here is built the same way: a deterministic core with tests in CI, an agent only where language helps, acceptance criteria written before the code, red-team and injection cases in the evals, and synthetic data so everything can be public.
 
